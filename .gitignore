@@ -1,3 +1,23 @@
 build/
 install/
 log/
+
+# --- AI Model Caches ---
+__pycache__/
+*.pyc
+
+# --- AI Data (절대 올리면 안 됨) ---
+data/
+datasets/
+videos/
+*.mp4
+*.zip
+
+# --- AI Training Artifacts ---
+runs/
+checkpoints/
+wandb/
+
+# --- macOS / VSCode ---
+.DS_Store
+.vscode/
