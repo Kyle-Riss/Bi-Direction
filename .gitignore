@@ -21,5 +21,4 @@ wandb/
 # --- macOS / VSCode ---
 .DS_Store
 .vscode/models/coarse_hotstart.pt
-models/robust_model.pt
 yolov8n.pt
