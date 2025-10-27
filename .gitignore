@@ -8,6 +8,7 @@ __pycache__/
 
 # --- AI Data (절대 올리면 안 됨) ---
 data/
+!data/sample/
 datasets/
 videos/
 *.mp4
