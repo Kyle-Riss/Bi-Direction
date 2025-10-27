@@ -18,9 +18,18 @@ def train_one_epoch(model, dataloader, optimizer, device, epoch_desc, scaler=Non
         images = images.to(device)
         targets = targets.to(device)
 
-        # Automatic Mixed Precision (AMP) 사용
-        with torch.cuda.amp.autocast(enabled=(scaler is not None)):
-             loss, _ = model(images, targets=targets) # YOLO 모델은 손실 자동 계산
+        # Mixed Precision 비활성화 (MPS에서는 제한적 지원)
+        # 모델 순전파
+        outputs = model(images)
+        
+        # 간단한 MSE 손실 (임시)
+        if targets.shape[0] > 0:
+            # targets에서 배치 인덱스 제거하고 좌표만 사용
+            target_coords = targets[:, 2:4]  # x, y 좌표만 추출
+            loss = nn.MSELoss()(outputs, target_coords)
+        else:
+            # 빈 배치인 경우 더미 손실
+            loss = torch.tensor(0.0, device=device, requires_grad=True)
 
         if scaler: # Mixed Precision 사용 시
             scaler.scale(loss).backward()

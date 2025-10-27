@@ -68,8 +68,9 @@ def create_temporal_model(num_frames=3, ckpt_path='yolov8n.pt'):
     # 5. 모델의 첫 번째 레이어를 우리가 만든 새 레이어로 교체합니다!
     model[0].conv = new_conv
     
-    # 6. (중요) 모델의 내부 설정(yaml)에도 입력 채널이 바뀌었다고 알려줍니다.
-    model.yaml['ch'] = new_in_channels
+    # 6. (선택사항) 모델의 내부 설정에도 입력 채널이 바뀌었다고 알려줍니다.
+    if hasattr(model, 'yaml'):
+        model.yaml['ch'] = new_in_channels
     
     print(f"Successfully modified model! New first layer input channels: {new_conv.in_channels}")
     
@@ -106,8 +107,9 @@ class YoloLSTM(nn.Module):
         )
         
         # LSTM 레이어 (YoloLSTM 스타일)
+        # 128x128 이미지 -> 16x16 (MaxPool2d 3번 적용)
         self.lstm = nn.LSTM(
-            input_size=128 * 8 * 8,  # CNN 출력 크기
+            input_size=128 * 16 * 16,  # CNN 출력 크기 수정 (32768)
             hidden_size=hidden_size,
             num_layers=num_layers,
             batch_first=True,
@@ -136,11 +138,11 @@ class YoloLSTM(nn.Module):
         batch_size = x.size(0)
         
         # CNN 백본 통과
-        cnn_out = self.cnn_backbone(x)  # (batch_size, 128, 8, 8)
+        cnn_out = self.cnn_backbone(x)  # (batch_size, 128, 16, 16)
         
         # LSTM을 위한 형태로 변환
-        cnn_out = cnn_out.view(batch_size, -1)  # (batch_size, 128*8*8)
-        cnn_out = cnn_out.unsqueeze(1)  # (batch_size, 1, 128*8*8)
+        cnn_out = cnn_out.view(batch_size, -1)  # (batch_size, 128*16*16)
+        cnn_out = cnn_out.unsqueeze(1)  # (batch_size, 1, 128*16*16)
         
         # LSTM 통과
         lstm_out, (h_n, c_n) = self.lstm(cnn_out)

@@ -8,33 +8,33 @@ GENERAL = {
     "num_frames": 3,         # 입력 프레임 수
     "yolo_ckpt": 'yolov8n.pt', # 사용할 YOLO 사전학습 모델
     "device": "mps",         # 학습에 사용할 디바이스 ('cuda', 'mps', 'cpu')
-    "num_workers": 4,        # 데이터 로딩 워커 수
+    "num_workers": 2,        # 데이터 로딩 워커 수 (맥북 최적화)
     "random_state": 42,      # 랜덤 시드
 }
 
 # --- 데이터 경로 ---
 DATA = {
-    "train_img_dir": 'data/train/images',   # (Student 1이 채울 경로)
-    "train_label_dir": 'data/train/labels', # (Student 1이 채울 경로)
-    "val_img_dir": 'data/val/images',       # (Student 1이 채울 경로)
-    "val_label_dir": 'data/val/labels',     # (Student 1이 채울 경로)
-    "test_img_dir": 'data/test/images',     # 테스트 데이터 경로
-    "test_label_dir": 'data/test/labels',   # 테스트 라벨 경로
+    "train_img_dir": 'data/train/images',   # BDD100K 비디오에서 추출된 프레임들
+    "train_label_dir": 'data/train/labels', # YOLO 라벨 파일들 (비어있음 - 테스트용)
+    "val_img_dir": 'data/val/images',       # 검증용 프레임들
+    "val_label_dir": 'data/val/labels',     # 검증용 라벨 파일들 (비어있음 - 테스트용)
+    "test_img_dir": 'data/test/images',     # 테스트용 프레임들
+    "test_label_dir": 'data/test/labels',   # 테스트용 라벨 파일들 (비어있음 - 테스트용)
 }
 
-# --- Multiscale 학습 설정 ---
+# --- Multiscale 학습 설정 (맥북 최적화) ---
 MULTISCALE = {
     "coarse": {
-        "img_size": 160,
-        "batch_size": 32,
-        "epochs": 50,
+        "img_size": 128,        # 160 -> 128 (메모리 절약)
+        "batch_size": 8,        # 32 -> 8 (메모리 절약)
+        "epochs": 30,           # 50 -> 30 (빠른 테스트)
         "lr": 1e-4,
         "save_path": 'models/coarse_hotstart.pt'
     },
     "fine": {
-        "img_size": 640,
-        "batch_size": 4,
-        "epochs": 10,
+        "img_size": 320,        # 640 -> 320 (메모리 절약)
+        "batch_size": 2,        # 4 -> 2 (메모리 절약)
+        "epochs": 5,            # 10 -> 5 (빠른 테스트)
         "lr": 1e-5,
         "save_path": 'models/robust_model.pt'
     }
