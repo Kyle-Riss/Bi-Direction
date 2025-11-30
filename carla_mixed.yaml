@@ -1,0 +1,18 @@
+path: carla_datasetv2
+train:
+  - realB_split/train/images
+  - fakeB_split/train/images
+val:
+  - realB_split/val/images
+  - fakeB_split/val/images
+test:
+  - realB_split/test/images
+  - fakeB_split/test/images
+names:
+  0: vehicle
+  1: pedestrian
+  2: traffic_sign
+  3: traffic_light
+nc: 4
+
+

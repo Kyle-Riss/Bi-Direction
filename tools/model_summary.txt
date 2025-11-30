@@ -1,0 +1,19 @@
+현재 프로젝트 모델 구조 분석 결과:
+
+1. YOLO 모델: YOLOv8n (nano) - 이미 가장 경량 버전 ✅
+2. LSTM 설정:
+   - hidden_size: 256
+   - num_layers: 2
+   - bidirectional: True
+3. 이미지 크기:
+   - Coarse: 128×128
+   - Fine: 320×320
+4. 배치 크기:
+   - Coarse: 8
+   - Fine: 2
+
+경량화 옵션:
+✅ GRU 모델 추가됨 (models/YoloGRU.py)
+✅ UltraLightYoloLSTM 존재 (models/ultra_light_model.py)
+✅ 모델 분석 스크립트 생성 (tools/analyze_model_size.py)
+✅ 경량화 가이드 문서 생성 (docs/MODEL_OPTIMIZATION_GUIDE.md)

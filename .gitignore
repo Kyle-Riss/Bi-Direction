@@ -1,25 +1,71 @@
-build/
-install/
-log/
-
-# --- AI Model Caches ---
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
 
-# --- AI Data (절대 올리면 안 됨) ---
-data/
-!data/sample/
-datasets/
-videos/
-*.mp4
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data and Datasets (제외)
+carla_datasetv2/
+data/videos/
+data/frames/
+data/video_frames_1280/
+archive/
+*.tar.gz
 *.zip
 
-# --- AI Training Artifacts ---
-runs/
-checkpoints/
-wandb/
-
-# --- macOS / VSCode ---
-.DS_Store
-.vscode/models/coarse_hotstart.pt
+# Model weights (큰 파일)
+*.pt
+*.pth
+*.ckpt
+*.weights
 yolov8n.pt
+yolov8s.pt
+yolov8m.pt
+yolov8l.pt
+yolov8x.pt
+
+# Training outputs
+runs/
+outputs/
+logs/
+*.log
+
+# Cache
+*.cache
+*.pkl
+*.pickle
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*_backup*
+*_old*
+*_temp*
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Test outputs
+test_outputs/
+test_results/
